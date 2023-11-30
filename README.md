@@ -1,0 +1,3 @@
+# Databricks Asia-Pacific LLM Cup 2023: Energy Queensland Limited Submission 
+
+This repository contains all the relevant code that contributed to the EQL team's submission to the Databricks Asia-Pacific LLM Cup 2023. Over a period of just over a month, this team of four has developed an end-to-end, multi-feature Databricks solution for a electricity customer chatbot that is an expert at answering general and technical questions that relate to power outages, electrical safety, energy costs and services provided for by Energy Queensland Limited.

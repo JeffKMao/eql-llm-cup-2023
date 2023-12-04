@@ -11,7 +11,7 @@
 # COMMAND ----------
 
 input_model = dbutils.jobs.taskValues.get(taskKey = "Configure_env", key = 'input_model =', default = 'meta-llama/Llama-2-7b-chat-hf')
-config_file_name = dbutils.jobs.taskValues.get(taskKey = "Configure_env", key = 'config_file_name', default = '/Workspace/Users/brett.smerdon@energyq.com.au/EQL-LLM/Jeff/configs/a10_config.json')
+config_file_name = dbutils.jobs.taskValues.get(taskKey = "Configure_env", key = 'config_file_name', default = '/Workspace/Repos/jeff.mao@energyq.com.au/eql-llm-cup-2023/Common/Demo Notebooks/configs/a10_config.json')
 
 local_output_dir = dbutils.jobs.taskValues.get(taskKey = "Configure_env", key = 'local_output_dir')
 dbfs_output_dir = dbutils.jobs.taskValues.get(taskKey = "Configure_env", key = 'dbfs_output_dir')
@@ -33,7 +33,7 @@ website_train_dataset = dbutils.jobs.taskValues.get(taskKey = "Configure_env", k
 !pip install --upgrade pip
 !pip install deepspeed==0.9.1 py-cpuinfo==9.0.0
 !pip install mlflow
-!pip install accelerate>=0.16.0,<1 click>=8.0.4,<9 datasets>=2.10.0,<3 deepspeed>=0.8.3,<0.9 transformers[torch]>=4.28.1,<5 langchain>=0.0.139 torch>=1.13.1,<2
+#!pip install accelerate>=0.16.0,<1 click>=8.0.4,<9 datasets>=2.10.0,<3 deepspeed>=0.8.3,<0.9 transformers[torch]>=4.28.1,<5 langchain>=0.0.139 torch>=1.13.1,<2
 !pip install -U deepspeed --quiet
 !pip install -U accelerate --quiet
 !pip install --upgrade accelerate
@@ -78,22 +78,19 @@ from transformers import (
     integrations,
     pipeline,
 )
-sys.path.append('/Workspace/Users/brett.smerdon@energyq.com.au/EQL-LLM/Jeff/scripts')
+sys.path.append('/Workspace/Repos/jeff.mao@energyq.com.au/eql-llm-cup-2023/Common/Demo Notebooks/scripts')
 
 import transformers
 import accelerate
 from consts import (
     DEFAULT_INPUT_MODEL,
     DEFAULT_SEED,
-    #PROMPT_WITH_INPUT_FORMAT,
-    #PROMPT_NO_INPUT_FORMAT,
     END_KEY,
     INSTRUCTION_KEY,
     RESPONSE_KEY_NL,
     DEFAULT_TRAINING_DATASET,
     SINGLE_PROMPT_NO_INPUT_FORMAT,
-    SINGLE_PROMPT_WITH_INPUT_FORMAT,
-    END_INST_KEY_NL
+    SINGLE_PROMPT_WITH_INPUT_FORMAT
 )
 
 import mlflow
@@ -281,58 +278,6 @@ def preprocess_dataset(tokenizer: LlamaTokenizer, max_length: int, training_data
     logger.info("Done preprocessing")
 
     return dataset
-
-# COMMAND ----------
-
-# # !huggingface-cli login
-# # or using an environment variable
-# !huggingface-cli login --token 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
-
-# from transformers import (
-#     AutoModelForCausalLM,
-#     LlamaTokenizer,
-#     DataCollatorForLanguageModeling,
-#     PreTrainedTokenizer,
-#     Trainer,
-#     TrainingArguments,
-#     set_seed,
-#     integrations,
-#     pipeline,
-# )
-# import sys
-# sys.path.append('/Workspace/Users/brett.smerdon@energyq.com.au/EQL-LLM/Jeff/scripts')
-# from consts import (
-#     DEFAULT_INPUT_MODEL,
-#     DEFAULT_SEED,
-#     PROMPT_WITH_INPUT_FORMAT,
-#     PROMPT_NO_INPUT_FORMAT,
-#     END_KEY,
-#     INSTRUCTION_KEY,
-#     RESPONSE_KEY_NL,
-#     DEFAULT_TRAINING_DATASET,
-# )
-
-
-# def load_tokenizer(pretrained_model_name_or_path: str = 'meta-llama/Llama-2-7b-chat-hf') -> PreTrainedTokenizer:
-#     #logger.info(f"Loading tokenizer for {pretrained_model_name_or_path}")
-#     tokenizer = LlamaTokenizer.from_pretrained(pretrained_model_name_or_path, cache_dir='/dbfs/energex-llama2/models')
-#     tokenizer.pad_token = tokenizer.eos_token
-#     tokenizer.add_special_tokens({"additional_special_tokens": [END_KEY, INSTRUCTION_KEY, RESPONSE_KEY_NL]})
-#     return tokenizer
-
-
-# def load_model(
-#     pretrained_model_name_or_path: str = 'meta-llama/Llama-2-7b-chat-hf', *, gradient_checkpointing: bool = False
-# ) -> AutoModelForCausalLM:
-#     #logger.info(f"Loading model for {pretrained_model_name_or_path}")
-#     model = AutoModelForCausalLM.from_pretrained(
-#         pretrained_model_name_or_path, cache_dir='/dbfs/energex-llama2/models', trust_remote_code=True, use_cache=False if gradient_checkpointing else True
-#     )
-#     return model
-
-# tknz = load_tokenizer('meta-llama/Llama-2-7b-chat-hf')
-# mod = load_model('meta-llama/Llama-2-7b-chat-hf')
-
 
 # COMMAND ----------
 
@@ -603,7 +548,7 @@ with mlflow.start_run() as run:
         python_model=EGX(),
         artifacts={'repository' : local_output_dir, 'sentence_tx_dir' : z_shot_model_dir},
         pip_requirements=[f"torch=={torch_version}", f"transformers=={transformers.__version__}", f"accelerate=={accelerate.__version__}", "einops", "sentencepiece"],
-        code_path=['/Workspace/Users/brett.smerdon@energyq.com.au/EQL-LLM/Jeff/scripts/consts.py', '/Workspace/Users/brett.smerdon@energyq.com.au/EQL-LLM/Jeff/scripts/generate.py'],
+        code_path=['/Workspace/Repos/jeff.mao@energyq.com.au/eql-llm-cup-2023/Common/Demo Notebooks/scripts/consts.py', '/Workspace/Repos/jeff.mao@energyq.com.au/eql-llm-cup-2023/Common/Demo Notebooks/scripts/generate.py'],
         input_example=input_example,
         registered_model_name=registered_model_name,
         metadata={"task": "llm/v1/completions"},

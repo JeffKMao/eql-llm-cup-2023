@@ -8,7 +8,7 @@
 !pip install --upgrade pip
 !pip install deepspeed==0.9.1 py-cpuinfo==9.0.0
 !pip install mlflow
-!pip install accelerate>=0.16.0,<1 click>=8.0.4,<9 datasets>=2.10.0,<3 deepspeed>=0.8.3,<0.9 transformers[torch]>=4.28.1,<5 langchain>=0.0.139 torch>=1.13.1,<2
+!pip install accelerate>=0.16.0 click>=8.0.4 datasets>=2.10.0 deepspeed>=0.8.3 transformers[torch]>=4.28.1 langchain>=0.0.139 torch>=1.13.1
 !pip install -U deepspeed --quiet
 !pip install -U accelerate --quiet
 !pip install --upgrade accelerate
@@ -30,7 +30,7 @@ import os
 import re
 from datetime import datetime
 
-working_dir = '/Workspace/Users/brett.smerdon@energyq.com.au/EQL-LLM/Jeff'
+working_dir = '/Workspace/Repos/jeff.mao@energyq.com.au/eql-llm-cup-2023/Common/Demo Notebooks'
 
 timestamp = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
 model_name = "llama2"

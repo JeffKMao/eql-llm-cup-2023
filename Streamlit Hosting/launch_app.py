@@ -36,18 +36,11 @@ print(f"Access this API at {endpoint_url}")
 # COMMAND ----------
 
 # DBTITLE 1,Starting your application
-os.environ["DATABRICKS_TOKEN"] = "dapie43374b60863ba6c46fde3f68fef8f06"
+os.environ["DATABRICKS_TOKEN"] = "<insert your token here>"
 
-!streamlit run eql-model-query.py
+!streamlit run eql-model-query-profanity-chat.py
+#!streamlit run eql-model-query.py
 #!streamlit run /Volumes/eql_llm/app_serving/eql_app_serving/eql-model-query_volume.py
 # !streamlit run eql-model-query-with-zero-shot.py
 
 #/Volumes/eql_llm/app_serving/eql_app_serving/website/outages.htm
-
-# COMMAND ----------
-
-#dbutils.fs.ls('/Volumes/eql_llm/app_serving/eql_app_serving/')
-
-# COMMAND ----------
-
-
